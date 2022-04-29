@@ -16,6 +16,9 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.Settings;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import java.io.BufferedReader;
@@ -31,12 +34,16 @@ import java.io.IOException;
 public class MainActivity extends AppCompatActivity {
     private String TAG1 = "step";
     private TextView textView;
+    private EditText fileNameInput;
+    private Button start;
+
     private double MagnitudePrevious = 0;
     private Integer stepCount = 0;
 
-    private static String fileTitle = "title.txt";
-    public static File file = new File(Environment.getExternalStorageDirectory(), fileTitle);
+    private static String fileTitle;
+    public static File file;
 
+    boolean START_RECORDING = false;
 
     private Runnable activity_recognition = new Runnable() {
         @Override
@@ -66,22 +73,34 @@ public class MainActivity extends AppCompatActivity {
 
 
         textView = findViewById(R.id.textView);
-        SensorManager sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
-        Sensor sensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+        fileNameInput = findViewById(R.id.fileNameInput);
+        start = findViewById(R.id.start);
 
-//        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, MODE_PRIVATE);
-//        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, MODE_PRIVATE);
+        start.setOnClickListener(
+            new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    fileTitle = fileNameInput.getText().toString();
+                    file = new File(Environment.getExternalStorageDirectory(), fileTitle);
+                    START_RECORDING = true;
+                }
+            }
+        );
+
+        SensorManager sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
+        Sensor sensor = sensorManager.getDefaultSensor(Sensor.TYPE_LINEAR_ACCELERATION);
+
+
+
         askForPermissions();
 
         SensorEventListener stepDetector = new SensorEventListener() {
             @Override
             public void onSensorChanged(SensorEvent sensorEvent) {
-                if (sensorEvent != null) {
+                if (sensorEvent != null && START_RECORDING==true) {
                     float x_acceleration = sensorEvent.values[0];
                     float y_acceleration = sensorEvent.values[1];
                     float z_acceleration = sensorEvent.values[2];
-
-
 
 
 
@@ -89,13 +108,13 @@ public class MainActivity extends AppCompatActivity {
                         if (!file.exists()) {
                             file.createNewFile();
                         }
-                        FileWriter writer = new FileWriter(file, true);
+                            FileWriter writer = new FileWriter(file, true);
 
-                        writer.write(x_acceleration+" ");
-                        writer.write(y_acceleration+" ");
-                        writer.write(z_acceleration+" ");
-                        writer.write("\n");
-                        writer.close();
+                            writer.write(x_acceleration+" ");
+                            writer.write(y_acceleration+" ");
+                            writer.write(z_acceleration+" ");
+                            writer.write("\n");
+                            writer.close();
                     } catch (IOException e) {
                         int a = 1;
                     }
