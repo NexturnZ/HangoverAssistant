@@ -82,10 +82,11 @@ public class MainActivity extends AppCompatActivity {
                             file.createNewFile();
                         }
                         FileWriter writer = new FileWriter(file, false);
-                        String str = "      저장할 내용      ";
-                        writer.write(x_acceleration+"f");
-                        writer.write(y_acceleration+"f");
-                        writer.write(z_acceleration+"f");
+                        
+                        writer.write(x_acceleration+"");
+                        writer.write(y_acceleration+"");
+                        writer.write(z_acceleration+"");
+                        writer.write("\n");
                         writer.close();
                     } catch (IOException e) {
 
