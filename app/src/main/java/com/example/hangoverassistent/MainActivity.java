@@ -45,26 +45,26 @@ public class MainActivity extends AppCompatActivity {
 
     boolean START_RECORDING = false;
 
-    private Runnable activity_recognition = new Runnable() {
-        @Override
-        public void run() {
-            if (stepCount == null) {
-                Log.e(TAG1, "is null");
-            }
-
-
-            String mode;
-            if (stepCount <= 2) {
-                mode = "Standing";
-            } else if (stepCount > 2 && stepCount <= 6) {
-                mode = "Walking";
-            } else {
-                mode = "Drunken";
-            }
-
-
-        }
-    };
+//    private Runnable activity_recognition = new Runnable() {
+//        @Override
+//        public void run() {
+//            if (stepCount == null) {
+//                Log.e(TAG1, "is null");
+//            }
+//
+//
+//            String mode;
+//            if (stepCount <= 2) {
+//                mode = "Standing";
+//            } else if (stepCount > 2 && stepCount <= 6) {
+//                mode = "Walking";
+//            } else {
+//                mode = "Drunken";
+//            }
+//
+//
+//        }
+//    };
 
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -119,15 +119,15 @@ public class MainActivity extends AppCompatActivity {
                         int a = 1;
                     }
 
-
-                    double Magnitude = Math.sqrt(x_acceleration * x_acceleration + y_acceleration * y_acceleration + z_acceleration * z_acceleration);
-                    double MagnitudeDelta = Magnitude - MagnitudePrevious;
-                    MagnitudePrevious = Magnitude;
-
-                    if (MagnitudeDelta > 6) {
-                        stepCount++;
-                    }
-                    textView.setText(stepCount.toString());
+//
+//                    double Magnitude = Math.sqrt(x_acceleration * x_acceleration + y_acceleration * y_acceleration + z_acceleration * z_acceleration);
+//                    double MagnitudeDelta = Magnitude - MagnitudePrevious;
+//                    MagnitudePrevious = Magnitude;
+//
+//                    if (MagnitudeDelta > 6) {
+//                        stepCount++;
+//                    }
+//                    textView.setText(stepCount.toString());
                 }
             }
 
@@ -136,7 +136,7 @@ public class MainActivity extends AppCompatActivity {
             }
         };
 
-        sensorManager.registerListener(stepDetector, sensor, SensorManager.SENSOR_DELAY_NORMAL);
+        sensorManager.registerListener(stepDetector, sensor, SensorManager.SENSOR_DELAY_GAME);
     }
 
 
