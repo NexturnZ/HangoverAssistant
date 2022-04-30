@@ -29,6 +29,8 @@ import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -44,6 +46,9 @@ public class MainActivity extends AppCompatActivity {
     public static File file;
 
     boolean START_RECORDING = false;
+
+    Date date = new Date();
+    SimpleDateFormat dateFormat = new SimpleDateFormat("_yyyy/MM/dd_HH:mm:ss");
 
 //    private Runnable activity_recognition = new Runnable() {
 //        @Override
@@ -80,9 +85,18 @@ public class MainActivity extends AppCompatActivity {
             new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    fileTitle = fileNameInput.getText().toString();
-                    file = new File(Environment.getExternalStorageDirectory(), fileTitle);
-                    START_RECORDING = true;
+                    if(START_RECORDING==false){
+                        String time = dateFormat.format(date);
+                        fileTitle = fileNameInput.getText().toString() + time + ".txt";
+                        file = new File(Environment.getExternalStorageDirectory(), fileTitle);
+                        START_RECORDING = true;
+                        textView.setText("Recording Started!!!!");
+                    }
+                    else{
+                        START_RECORDING = false;
+                        textView.setText("Ready to start");
+                    }
+
                 }
             }
         );
@@ -101,6 +115,7 @@ public class MainActivity extends AppCompatActivity {
                     float x_acceleration = sensorEvent.values[0];
                     float y_acceleration = sensorEvent.values[1];
                     float z_acceleration = sensorEvent.values[2];
+                    long t = sensorEvent.timestamp;
 
 
 
@@ -113,6 +128,7 @@ public class MainActivity extends AppCompatActivity {
                             writer.write(x_acceleration+" ");
                             writer.write(y_acceleration+" ");
                             writer.write(z_acceleration+" ");
+                            writer.write(t+" ");
                             writer.write("\n");
                             writer.close();
                     } catch (IOException e) {
