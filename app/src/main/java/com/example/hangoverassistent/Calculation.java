@@ -26,6 +26,8 @@ public class Calculation {
             v += Math.pow(a[i1]-mu,2);
         }
 
+        v = v/a.length;
+
         return v;
     }
 
@@ -42,7 +44,6 @@ public class Calculation {
     public double covariance(double[] a1, double[] a2){
         double mu1 = mean(a1);
         double mu2 = mean(a2);
-
 
         double cov = 0;
         int len = Math.min(a1.length,a2.length);
@@ -88,7 +89,6 @@ public class Calculation {
 
         int idx_start = slot_len, idx_stop = Math.min(idx_start+slot_len, a.length), idx = 1;
 
-
         System.arraycopy(a,0,slot,0,slot_len);
         mu[0] = mean(slot);
         sigma[0] = var(slot);
@@ -96,12 +96,23 @@ public class Calculation {
         while(idx_stop<a.length){
             idx_stop = Math.min(idx_start+slot_len, a.length);
 
-             for(int i1=idx_start;i1<idx_stop;i1++){
-                muT += Math.abs(mu[idx]-mu[idx-1]);
-                muD += Math.abs(m-mu[idx]);
-                sigmaT += Math.abs(sigma[idx]-sigma[idx-1]);
-                sigmaD += Math.abs(v-sigma[idx]);
-            }
+            double[] slot2 = new double[idx_stop-idx_start];
+            System.arraycopy(a,idx_start,slot2,0,slot2.length);
+
+            mu[idx] = mean(slot2);
+            sigma[idx] = var(slot2);
+
+            muT += Math.abs(mu[idx]-mu[idx-1]);
+            muD += Math.abs(m-mu[idx]);
+            sigmaT += Math.abs(sigma[idx]-sigma[idx-1]);
+            sigmaD += Math.abs(v-sigma[idx]);
+
+//             for(int i1=idx_start;i1<idx_stop;i1++){
+//                muT += Math.abs(mu[idx]-mu[idx-1]);
+//                muD += Math.abs(m-mu[idx]);
+//                sigmaT += Math.abs(sigma[idx]-sigma[idx-1]);
+//                sigmaD += Math.abs(v-sigma[idx]);
+//            }
 
             idx_start = idx_stop;
             idx ++;

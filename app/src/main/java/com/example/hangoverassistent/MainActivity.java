@@ -58,12 +58,13 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     long[] time = new long[window_size];
     double[] features = new double[31]; // 31 features
 
-    double[] svm_coef = {0.09720538,-0.30933068,-0.14186296,0.22354652,0.02755133,0.16948651,
-            0.02323645,0.02779507,  -0.00235796, 0.08655292, 0.13056048, 0.01947514,
-            0.0818453, 0.21082497, -1.13051979, 0.45562832, -0.36258912, -0.08484433,
-            0.19513162, -0.06729894, -0.20604229, -1.08803159, -0.39638457, -0.2094056,
-            0.84361942, 0.07917099, -0.07794977,  0.51186235,  0.52445967, -0.16930826,
-            0.36176924};
+    double[] svm_coef = {0.683704,-0.740570,-0.825600,0.845597,-0.217621,
+            0.255930,0.012187,0.000414,-0.016522,0.255709,0.311292,
+            -0.079229,0.646723,0.246519,-1.040270,0.156335,-0.199792,
+            0.117137,0.053464,-0.328856,-0.609530,0.356513,-0.247528,
+            0.902920,-0.818884,-0.459921,0.316210,0.099498,0.370671,
+            -0.240437,0.237050};
+    double intercept = -1.16633028;
 
 
     private Handler mHandler1;
@@ -224,7 +225,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
             features[9] = cal.covariance(x_acceleration,z_acceleration); // cov(ML,AP)
             features[10] = cal.covariance(x_acceleration,y_acceleration); // cov(ML,V)
-            features[11] = cal.covariance(y_acceleration,y_acceleration); // cov(V,AP)
+            features[11] = cal.covariance(y_acceleration,z_acceleration); // cov(V,AP)
 
             features[12] = cal.max(x_acceleration) - cal.min(x_acceleration); // d_ML
             features[13] = cal.max(z_acceleration) - cal.min(z_acceleration); // d_AP
@@ -235,8 +236,8 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             features[18] = (double) Math.sqrt(Math.pow(features[12],2)+Math.pow(features[13],2)+Math.pow(features[14],2));// d_ML_AP_V
 
             double[] tr_x = cal.trend(x_acceleration,features[0],features[3]);
-            double[] tr_z = cal.trend(x_acceleration,features[1],features[4]);
-            double[] tr_y = cal.trend(x_acceleration,features[2],features[5]);
+            double[] tr_z = cal.trend(z_acceleration,features[1],features[4]);
+            double[] tr_y = cal.trend(y_acceleration,features[2],features[5]);
             features[19] = tr_x[0];// muT_ML
             features[20] = tr_z[0];// muT_AP
             features[21] = tr_y[0];// muT_V
@@ -253,15 +254,15 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             features[29] = tr_z[3];// (sigma^2)D_AP
             features[30] = tr_y[3];// (sigma^2)D_V
 
-            double pred = cal.correlate(features,svm_coef);
+            double pred = cal.correlate(features,svm_coef) + intercept;
 
-//            if(pred>0){
-//                textView.setText(String.format("Pred value:%f\nDRUNK",pred));
-//            }
-//            else{
-//                textView.setText(String.format("Pred value:%f\nNOT DRUNK",pred));
-//            }
-            textView.setText(String.format("%f",(time[0]-time[1])/1e9));
+            if(pred>0){
+                textView.setText(String.format("Pred value:%f\nDRUNK",pred));
+            }
+            else{
+                textView.setText(String.format("Pred value:%f\nNOT DRUNK",pred));
+            }
+//            textView.setText(String.format("%f",(time[0]-time[1])/1e9));
 
 
             mHandler1.postDelayed(activity_recognition,1000);
