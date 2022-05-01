@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -18,21 +19,7 @@
         android:layout_marginTop="144dp"
         android:text="turn on" />
 
-    <EditText
-        android:id="@+id/mGetNumber"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="234dp" />
 
-    <EditText
-        android:id="@+id/mGetText"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="297dp" />
 
     <Button
         android:id="@+id/mSendBtn"
@@ -42,15 +29,7 @@
         android:layout_centerVertical="true"
         android:text="send" />
 
-    <Button
-        android:id="@+id/change"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginStart="1dp"
-        android:layout_marginBottom="288dp"
-        android:text="change number" />
+
 
     <Button
         android:id="@+id/log"
@@ -87,5 +66,3 @@
 
 
 </RelativeLayout>
-
-
