@@ -1,5 +1,6 @@
 package com.example.hangoverassistent;
 
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -41,33 +42,34 @@ public class MainActivity extends AppCompatActivity {
     private TextView textView;
     private double MagnitudePrevious = 0;
     private Integer stepCount = 0;
-
-
+    private boolean flag = false;
     //brought
-    private EditText mGetText;
-    private EditText mGetNumber;
-    private Button mSendBtn;
+
     private Button mFunction;
-    private String phoneNumber;
-    private String message;
+
+    private Button mSetting;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-
-
         //brought
         getSmsPermission();
 
         //brought
-        mGetNumber = (EditText) findViewById(R.id.mGetNumber);
-        mGetText = (EditText) findViewById(R.id.mGetText);
-        mSendBtn = (Button) findViewById(R.id.mSendBtn);
+
+
         mFunction = (Button) findViewById(R.id.function);
+        mSetting = (Button) findViewById(R.id.setting);
 
+        mSetting.setOnClickListener(new View.OnClickListener() {
+            @Override
 
+            public void onClick(View v) {
+                onButtonSettingClicked(v);
+            }
+        });
 
 
         //function button
@@ -76,61 +78,26 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View view) {
-                mFunction.setText("Dysfunction");
+                if (flag == false){
+                    flag = true;
+                    mFunction.setText("Turn Off");
+
+
+                }else{
+
+                    flag = false;
+                    mFunction.setText("Turn On");
+
+
+                }
+
 
 
 
 
             }
         });
-
-
-
-
-
-
-
-
-
-
-
         //later we could just delete this and replace this with the if statement
-        mSendBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v)
-            {
-
-
-                String phoneNo = mGetNumber.getText().toString();
-                String sms = mGetText.getText().toString();
-
-
-                if(!validNumber(phoneNumber))
-                {
-                    Toast.makeText(MainActivity.this, "Invalid phone number", Toast.LENGTH_LONG).show();
-                    return;
-                } else if (message == null)
-                {
-                    Toast.makeText(MainActivity.this, "Message cannot be empty", Toast.LENGTH_LONG).show();
-                    return;
-                }
-
-                try {
-                    //전송
-                    SmsManager smsManager = SmsManager.getDefault();
-                    smsManager.sendTextMessage(phoneNo, null, sms, null, null);
-                    Toast.makeText(getApplicationContext(), "Message Sent!", Toast.LENGTH_LONG).show();
-                } catch (Exception e) {
-                    Toast.makeText(getApplicationContext(), "SMS faild, please try again later!", Toast.LENGTH_LONG).show();
-                    e.printStackTrace();
-                }
-
-            }
-
-
-
-        });
-
 /////////////////////////////////////////////////////////////////////
 
 
@@ -142,18 +109,13 @@ public class MainActivity extends AppCompatActivity {
 
         SensorEventListener stepDetector = new SensorEventListener() {
             @Override
-
-
             public void onSensorChanged(SensorEvent sensorEvent) {
                 if (sensorEvent != null) {
                     float x_acceleration = sensorEvent.values[0];
                     float y_acceleration = sensorEvent.values[1];
                     float z_acceleration = sensorEvent.values[2];
-
-
                     String fileTitle = "title.txt";
                     File file = new File(Environment.getExternalStorageDirectory(), fileTitle);
-
                     try {
                         if (!file.exists()) {
                             file.createNewFile();
@@ -169,7 +131,6 @@ public class MainActivity extends AppCompatActivity {
 
                     }
 
-
                     double Magnitude = Math.sqrt(x_acceleration * x_acceleration + y_acceleration * y_acceleration + z_acceleration * z_acceleration);
                     double MagnitudeDelta = Magnitude - MagnitudePrevious;
                     MagnitudePrevious = Magnitude;
@@ -180,7 +141,6 @@ public class MainActivity extends AppCompatActivity {
 
                 }
             }
-
             @Override
             public void onAccuracyChanged(Sensor sensor, int i) {
             }
@@ -189,49 +149,42 @@ public class MainActivity extends AppCompatActivity {
         sensorManager.registerListener(stepDetector, sensor, SensorManager.SENSOR_DELAY_NORMAL);
     }
 
+    public void onButtonSettingClicked(View v){
+        Intent intent = new Intent(this, setting.class);
+        startActivity(intent);
 
 
-
-
+    }
 
 
 
     protected void onPause() {
         super.onPause();
-
         SharedPreferences sharedPreferences = getPreferences(MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.clear();
         editor.putInt("stepCount", stepCount);
         editor.apply();
     }
+
 
 
     protected void onStop() {
         super.onStop();
-
         SharedPreferences sharedPreferences = getPreferences(MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.clear();
         editor.putInt("stepCount", stepCount);
         editor.apply();
     }
-
     protected void onResume() {
         super.onResume();
-
         SharedPreferences sharedPreferences = getPreferences(MODE_PRIVATE);
         stepCount = sharedPreferences.getInt("stepCount", 0);
     }
-
-
-
-
     public void readFile() {
-
         String fileTitle = "title.txt";
         File file = new File(Environment.getExternalStorageDirectory(), fileTitle);
-
         try {
             BufferedReader reader = new BufferedReader(new FileReader(file));
             String result = "";
@@ -239,20 +192,15 @@ public class MainActivity extends AppCompatActivity {
             while ((line = reader.readLine()) != null) {
                 result += line;
             }
-
             System.out.println("name : " + result);
-
             reader.close();
         } catch (FileNotFoundException e1) {
-
         } catch (IOException e2) {
 
         }
 
 
     }
-
-
     private void getSmsPermission()
     {
         if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.SEND_SMS)
@@ -268,11 +216,6 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
-
-
-
-
-
 //    private void sendMessage(String phoneNumber, String message)
 //    {
 //        final SmsManager smsManager = SmsManager.getDefault();
@@ -296,21 +239,6 @@ public class MainActivity extends AppCompatActivity {
 //        sendIntent.setType("vnd.android-dir/mms-sms");
 //        startActivity(sendIntent);
 //    }
-
-    private boolean validNumber(String phoneNumber)
-    {
-        Pattern p = Pattern.compile("[0-9]");
-        Matcher m = p.matcher(phoneNumber);
-
-        if(!m.find())
-            return false;
-        return phoneNumber.length() == 10;
-    }
-
-
-
-
-
 
 
 
