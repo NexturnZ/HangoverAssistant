@@ -48,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
     boolean START_RECORDING = false;
 
     Date date = new Date();
-    SimpleDateFormat dateFormat = new SimpleDateFormat("_yyyy/MM/dd_HH:mm:ss");
+    SimpleDateFormat dateFormat = new SimpleDateFormat("_yyyy_MM_dd_HH_mm_ss");
 
 //    private Runnable activity_recognition = new Runnable() {
 //        @Override
