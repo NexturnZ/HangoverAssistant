@@ -258,10 +258,15 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
             if(pred>0){
                 textView.setText(String.format("Pred value:%f\nDRUNK",pred));
+                Log.i("Detection Result", String.format("DRUNK:%f\n",pred));
+//                System.out.printf("DRUNK:%f\n",pred);
             }
             else{
                 textView.setText(String.format("Pred value:%f\nNOT DRUNK",pred));
+//                System.out.printf("NOT DRUNK:%f\n",pred);
+                Log.i("Detection Result", String.format("NOT DRUNK:%f\n",pred));
             }
+
 //            textView.setText(String.format("%f",(time[0]-time[1])/1e9));
 
 
