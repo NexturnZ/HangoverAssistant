@@ -28,21 +28,16 @@
         android:textSize="30dp"/>
 
 
-
-
     <Button
         android:id="@+id/previous"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
+        android:layout_centerInParent="true"
         android:layout_marginStart="147dp"
         android:layout_marginBottom="1dp"
-        android:text="previous"
-        android:layout_centerVertical="true"
-        android:layout_centerInParent="true"
-        />
+        android:text="previous" />
 
     <TextView
         android:layout_width="wrap_content"

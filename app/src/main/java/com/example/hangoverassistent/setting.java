@@ -22,6 +22,9 @@ public class setting extends AppCompatActivity {
     private String message;
     private Button mPrevious;
 
+    String phoneNo;
+    String sms;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +38,9 @@ public class setting extends AppCompatActivity {
         mPrevious.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                phoneNo = mGetNumber.getText().toString();
+                sms = mGetText.getText().toString();
+
                 onButtonPreviousClicked(v);
             }
         });
@@ -45,19 +51,9 @@ public class setting extends AppCompatActivity {
             {
 
 
-                String phoneNo = mGetNumber.getText().toString();
-                String sms = mGetText.getText().toString();
+                phoneNo = mGetNumber.getText().toString();
+                sms = mGetText.getText().toString();
 
-
-                if(!validNumber(phoneNumber))
-                {
-                    Toast.makeText(setting.this, "Invalid phone number", Toast.LENGTH_LONG).show();
-                    return;
-                } else if (message == null)
-                {
-                    Toast.makeText(setting.this, "Message cannot be empty", Toast.LENGTH_LONG).show();
-                    return;
-                }
 
                 try {
                     //전송
@@ -83,6 +79,9 @@ public class setting extends AppCompatActivity {
     }
 
     public void onButtonPreviousClicked(View v){
+
+
+
         finish();
 
 

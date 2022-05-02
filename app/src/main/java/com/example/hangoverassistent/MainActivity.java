@@ -49,6 +49,10 @@ public class MainActivity extends AppCompatActivity {
 
     private Button mSetting;
 
+    private TextView numbers;
+
+    Intent setting; /* intent for setting page activity */
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,6 +66,8 @@ public class MainActivity extends AppCompatActivity {
 
         mFunction = (Button) findViewById(R.id.function);
         mSetting = (Button) findViewById(R.id.setting);
+
+        numbers = findViewById(R.id.numbers);
 
         mSetting.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -82,12 +88,16 @@ public class MainActivity extends AppCompatActivity {
                     flag = true;
                     mFunction.setText("Turn Off");
 
+                    String phone = setting.getExtras().getString("phoneNo");
+                    numbers.setText(phone);
 
                 }else{
 
                     flag = false;
                     mFunction.setText("Turn On");
 
+                    String phone = setting.getExtras().getString("phoneNo");
+                    numbers.setText(phone);
 
                 }
 
@@ -150,9 +160,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onButtonSettingClicked(View v){
-        Intent intent = new Intent(this, setting.class);
-        startActivity(intent);
+        setting = new Intent(this, setting.class);
+        startActivity(setting);
 
+//        String phone = intent.getExtras().getString("phoneNo");
+//
+//        numbers.setText(phone);
 
     }
 
