@@ -58,13 +58,13 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     long[] time = new long[window_size];
     double[] features = new double[31]; // 31 features
 
-    /* SVM parameters set 1 (seems to perform good) */
-    double[] svm_coef = {0.031053,0.001120,0.004053,0.007002,-0.049769,0.006411,0.005582,-0.006079,-0.045106,-0.005188,0.002751,-0.004942,-0.107163,0.249802,-0.090019,0.051073,-0.138872,0.060385,-0.013575,0.119103,0.025736,0.088006,0.166005,0.024176,-0.011855,-0.084300,-0.023110,0.093216,0.009598,-0.034145,0.031699};
-    double intercept = -1.029632;
+//    /* SVM parameters set 1 (seems to perform good) */
+//    double[] svm_coef = {0.031053,0.001120,0.004053,0.007002,-0.049769,0.006411,0.005582,-0.006079,-0.045106,-0.005188,0.002751,-0.004942,-0.107163,0.249802,-0.090019,0.051073,-0.138872,0.060385,-0.013575,0.119103,0.025736,0.088006,0.166005,0.024176,-0.011855,-0.084300,-0.023110,0.093216,0.009598,-0.034145,0.031699};
+//    double intercept = -1.029632;
 
     /* SVM parameter set 2 */
-//    double[] svm_coef = {-0.038200,-0.030831,0.025977,0.035786,-0.012340,0.016953,0.023485,-0.021689,-0.115805,-0.022870,0.007224,0.000140,-0.075109,0.194520,-0.141511,0.010856,-0.149493,-0.045788,-0.084872,0.178205,0.144151,0.001413,0.151674,0.029120,-0.003734,-0.042486,-0.029122,0.111493,0.073239,-0.036829,0.073831};
-//    double intercept = 0.285992;
+    double[] svm_coef = {-0.000417,-0.004369,0.007100,0.005774,-0.026227,0.000889,0.016376,-0.022719,-0.076439,-0.010959,0.004071,-0.002835,-0.054202,0.166098,-0.005136,0.054100,-0.025855,0.072041,0.037173,0.118530,0.116273,0.077862,0.080757,0.047996,-0.011626,-0.079853,0.001354,0.111593,0.029098,-0.082564,0.032931};
+    double intercept = -2.305152;
 
 
     private Handler mHandler1;
@@ -258,13 +258,13 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
             if(pred>0){
                 textView.setText(String.format("Pred value:%f\nDRUNK",pred));
-                Log.i("Detection Result", String.format("DRUNK:%f\n",pred));
+                Log.d("Detection Result", String.format("DRUNK:%f\n",pred));
 //                System.out.printf("DRUNK:%f\n",pred);
             }
             else{
                 textView.setText(String.format("Pred value:%f\nNOT DRUNK",pred));
 //                System.out.printf("NOT DRUNK:%f\n",pred);
-                Log.i("Detection Result", String.format("NOT DRUNK:%f\n",pred));
+                Log.d("Detection Result", String.format("NOT DRUNK:%f\n",pred));
             }
 
 //            textView.setText(String.format("%f",(time[0]-time[1])/1e9));
