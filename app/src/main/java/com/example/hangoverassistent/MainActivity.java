@@ -44,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
     private Integer stepCount = 0;
     private boolean flag = false;
     //brought
-
+    private Button mLog;
     private Button mFunction;
 
     private Button mSetting;
@@ -52,7 +52,7 @@ public class MainActivity extends AppCompatActivity {
     private TextView numbers;
 
     Intent setting; /* intent for setting page activity */
-
+    Intent logging;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
 
         //brought
 
-
+        mLog = findViewById(R.id.log);
         mFunction = (Button) findViewById(R.id.function);
         mSetting = (Button) findViewById(R.id.setting);
 
@@ -79,6 +79,16 @@ public class MainActivity extends AppCompatActivity {
 
 
         //function button
+
+        mLog.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                onButtonLogClicked(v);
+            }
+        });
+
+
 
         mFunction.setOnClickListener(new View.OnClickListener(){
 
@@ -166,6 +176,14 @@ public class MainActivity extends AppCompatActivity {
 //        String phone = intent.getExtras().getString("phoneNo");
 //
 //        numbers.setText(phone);
+
+    }
+
+    public void onButtonLogClicked(View v){
+        logging = new Intent(this, userlog.class);
+        startActivity(logging);
+
+
 
     }
 
