@@ -1,6 +1,12 @@
 package com.example.hangoverassistent;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import android.content.Context;
 import android.content.Intent;
@@ -8,6 +14,13 @@ import android.content.SharedPreferences;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
+import android.Manifest;
+import android.app.Activity;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.hardware.Sensor;
+
 import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.os.Handler;
@@ -92,7 +105,6 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     boolean sms_flag = false;
 
 
-
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
@@ -101,8 +113,6 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         accelerator = sm.getDefaultSensor(Sensor.TYPE_LINEAR_ACCELERATION);
 
         mHandler1 = new Handler();
-
-        textView = findViewById(R.id.textView1);
 
         //brought
         getSmsPermission();
@@ -326,11 +336,11 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             double pred = cal.correlate(features,svm_coef) + intercept;
 
             if(pred>0){
-                textView.setText(String.format("Pred value:%f\nDRUNK",pred));
+//                textView.setText(String.format("Pred value:%f\nDRUNK",pred));
                 Log.d("Detection Result", String.format("DRUNK:%f\n",pred));
             }
             else{
-                textView.setText(String.format("Pred value:%f\nNOT DRUNK",pred));
+//                textView.setText(String.format("Pred value:%f\nNOT DRUNK",pred));
                 Log.d("Detection Result", String.format("NOT DRUNK:%f\n",pred));
             }
             mHandler1.postDelayed(activity_recognition,1000);
@@ -352,4 +362,32 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             }
         }
     }
+
+
+//    private void sendMessage(String phoneNumber, String message)
+//    {
+//        final SmsManager smsManager = SmsManager.getDefault();
+//        smsManager.sendTextMessage(phoneNumber, null, message, null, null);
+//
+//        Intent sendIntent = new Intent(Intent.ACTION_VIEW);
+//
+//        // Ensure message is not too long
+//        while(message.length() > 160)
+//        {
+//            String subMessage = message.substring(0, 160);
+//            smsManager.sendTextMessage(phoneNumber, null, subMessage, null, null);
+//            sendIntent.putExtra("sms_body", "default content");
+//            sendIntent.setType("vnd.android-dir/mms-sms");
+//
+//            message = message.substring(160, message.length());
+//        }
+//
+//        smsManager.sendTextMessage(phoneNumber, null, message, null, null);
+//        sendIntent.putExtra("sms_body", "default content");
+//        sendIntent.setType("vnd.android-dir/mms-sms");
+//        startActivity(sendIntent);
+//    }
+
+
+
 }
