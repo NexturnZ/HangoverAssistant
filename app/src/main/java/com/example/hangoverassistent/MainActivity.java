@@ -1,11 +1,15 @@
 package com.example.hangoverassistent;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -52,6 +56,14 @@ public class MainActivity extends AppCompatActivity {
     private TextView numbers;
 
     Intent setting; /* intent for setting page activity */
+
+    private static final int CONFIGURATION_REQUEST_CODE = 0;
+
+
+    /*configuration page variables*/
+    ActivityResultLauncher<Intent> configurationActivityResultLauncher;
+    String phoneNo, sms;
+    boolean sms_flag = false;
 
 
     @Override
@@ -157,15 +169,32 @@ public class MainActivity extends AppCompatActivity {
         };
 
         sensorManager.registerListener(stepDetector, sensor, SensorManager.SENSOR_DELAY_NORMAL);
+
+        /* Configuration page intent result set up */
+        configurationActivityResultLauncher = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
+                new ActivityResultCallback<ActivityResult>() {
+            @Override
+            public void onActivityResult(ActivityResult result) {
+                if(result.getResultCode() == Activity.RESULT_OK){
+
+                    phoneNo = result.getData().getExtras().getString("phoneNo");
+                    sms = result.getData().getExtras().getString("sms");
+                    sms_flag = result.getData().getExtras().getBoolean("sms_flag");
+                }
+            }
+        });
     }
 
     public void onButtonSettingClicked(View v){
         setting = new Intent(this, setting.class);
-        startActivity(setting);
+//        startActivity(setting);
 
-//        String phone = intent.getExtras().getString("phoneNo");
-//
-//        numbers.setText(phone);
+
+        setting.putExtra("phoneNo",phoneNo);
+        setting.putExtra("sms",sms);
+        setting.putExtra("sms_flag",sms_flag);
+        configurationActivityResultLauncher.launch(setting);
 
     }
 
