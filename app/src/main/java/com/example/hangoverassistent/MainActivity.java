@@ -14,32 +14,14 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.hardware.Sensor;
-import android.hardware.SensorEvent;
-import android.hardware.SensorEventListener;
+
 import android.hardware.SensorManager;
 import android.os.Bundle;
-import android.os.Environment;
-import android.telephony.SmsManager;
-import android.util.Log;
+
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
+
 import android.widget.TextView;
-import android.widget.Toast;
-
-import java.io.BufferedReader;
-import java.io.DataOutputStream;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-
-import android.os.Bundle;
 
 public class MainActivity extends AppCompatActivity {
     private String TAG1 = "step";
@@ -57,8 +39,6 @@ public class MainActivity extends AppCompatActivity {
 
     Intent setting; /* intent for setting page activity */
     Intent logging;
-
-    private static final int CONFIGURATION_REQUEST_CODE = 0;
 
 
     /*configuration page variables*/
@@ -89,7 +69,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
         //function button
 
         mLog.setOnClickListener(new View.OnClickListener() {
@@ -99,8 +78,6 @@ public class MainActivity extends AppCompatActivity {
                 onButtonLogClicked(v);
             }
         });
-
-
 
         mFunction.setOnClickListener(new View.OnClickListener(){
 
@@ -122,15 +99,9 @@ public class MainActivity extends AppCompatActivity {
                     numbers.setText(phone);
 
                 }
-
-
-
-
-
             }
         });
-        //later we could just delete this and replace this with the if statement
-/////////////////////////////////////////////////////////////////////
+
 
 
 
@@ -139,46 +110,6 @@ public class MainActivity extends AppCompatActivity {
 
         ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, MODE_PRIVATE);
 
-        SensorEventListener stepDetector = new SensorEventListener() {
-            @Override
-            public void onSensorChanged(SensorEvent sensorEvent) {
-                if (sensorEvent != null) {
-                    float x_acceleration = sensorEvent.values[0];
-                    float y_acceleration = sensorEvent.values[1];
-                    float z_acceleration = sensorEvent.values[2];
-                    String fileTitle = "title.txt";
-                    File file = new File(Environment.getExternalStorageDirectory(), fileTitle);
-                    try {
-                        if (!file.exists()) {
-                            file.createNewFile();
-                        }
-                        FileWriter writer = new FileWriter(file, true);
-
-                        writer.write(x_acceleration + "");
-                        writer.write(y_acceleration + "");
-                        writer.write(z_acceleration + "");
-                        writer.write("\n");
-                        writer.close();
-                    } catch (IOException e) {
-
-                    }
-
-                    double Magnitude = Math.sqrt(x_acceleration * x_acceleration + y_acceleration * y_acceleration + z_acceleration * z_acceleration);
-                    double MagnitudeDelta = Magnitude - MagnitudePrevious;
-                    MagnitudePrevious = Magnitude;
-
-                    if (MagnitudeDelta > 6) {
-                        stepCount++;
-                    }
-
-                }
-            }
-            @Override
-            public void onAccuracyChanged(Sensor sensor, int i) {
-            }
-        };
-
-        sensorManager.registerListener(stepDetector, sensor, SensorManager.SENSOR_DELAY_NORMAL);
 
         /* Configuration page intent result set up */
         configurationActivityResultLauncher = registerForActivityResult(
@@ -198,69 +129,34 @@ public class MainActivity extends AppCompatActivity {
 
     public void onButtonSettingClicked(View v){
         setting = new Intent(this, setting.class);
-//        startActivity(setting);
-
-
         setting.putExtra("phoneNo",phoneNo);
         setting.putExtra("sms",sms);
         setting.putExtra("sms_flag",sms_flag);
         configurationActivityResultLauncher.launch(setting);
-
     }
 
     public void onButtonLogClicked(View v){
         logging = new Intent(this, userlog.class);
         startActivity(logging);
-
-
-
     }
 
 
 
     protected void onPause() {
         super.onPause();
-        SharedPreferences sharedPreferences = getPreferences(MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.clear();
-        editor.putInt("stepCount", stepCount);
-        editor.apply();
     }
 
 
 
     protected void onStop() {
         super.onStop();
-        SharedPreferences sharedPreferences = getPreferences(MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.clear();
-        editor.putInt("stepCount", stepCount);
-        editor.apply();
     }
     protected void onResume() {
         super.onResume();
         SharedPreferences sharedPreferences = getPreferences(MODE_PRIVATE);
         stepCount = sharedPreferences.getInt("stepCount", 0);
     }
-    public void readFile() {
-        String fileTitle = "title.txt";
-        File file = new File(Environment.getExternalStorageDirectory(), fileTitle);
-        try {
-            BufferedReader reader = new BufferedReader(new FileReader(file));
-            String result = "";
-            String line;
-            while ((line = reader.readLine()) != null) {
-                result += line;
-            }
-            System.out.println("name : " + result);
-            reader.close();
-        } catch (FileNotFoundException e1) {
-        } catch (IOException e2) {
 
-        }
-
-
-    }
     private void getSmsPermission()
     {
         if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.SEND_SMS)

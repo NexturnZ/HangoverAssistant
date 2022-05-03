@@ -83,10 +83,8 @@ public class setting extends AppCompatActivity {
             public void onClick(View v)
             {
 
-
                 phoneNo = mGetNumber.getText().toString();
                 sms = mGetText.getText().toString();
-
 
                 try {
                     //전송
@@ -99,16 +97,7 @@ public class setting extends AppCompatActivity {
                 }
 
             }
-
-
-
         });
-
-
-
-
-
-
     }
 
     public void onButtonPreviousClicked(View v){
