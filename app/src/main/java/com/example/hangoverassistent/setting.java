@@ -19,7 +19,6 @@ public class setting extends AppCompatActivity {
 
     private EditText mGetText;
     private EditText mGetNumber;
-    private Button mSendBtn;
     private String phoneNumber;
     private String message;
     private Button mPrevious;
@@ -39,7 +38,6 @@ public class setting extends AppCompatActivity {
         mPrevious = (Button) findViewById(R.id.previous);
         mGetNumber = (EditText) findViewById(R.id.mGetNumber);
         mGetText = (EditText) findViewById(R.id.mGetText);
-        mSendBtn = (Button) findViewById(R.id.mSendBtn);
 
         sw1 = findViewById(R.id.sw1);
         sw2 = findViewById(R.id.sw2);
@@ -75,27 +73,6 @@ public class setting extends AppCompatActivity {
                 sms = mGetText.getText().toString();
 
                 onButtonPreviousClicked(v);
-            }
-        });
-
-        mSendBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v)
-            {
-
-                phoneNo = mGetNumber.getText().toString();
-                sms = mGetText.getText().toString();
-
-                try {
-                    //전송
-                    SmsManager smsManager = SmsManager.getDefault();
-                    smsManager.sendTextMessage(phoneNo, null, sms, null, null);
-                    Toast.makeText(getApplicationContext(), "Message Sent!", Toast.LENGTH_LONG).show();
-                } catch (Exception e) {
-                    Toast.makeText(getApplicationContext(), "SMS faild, please try again later!", Toast.LENGTH_LONG).show();
-                    e.printStackTrace();
-                }
-
             }
         });
     }

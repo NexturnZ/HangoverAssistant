@@ -16,7 +16,7 @@
         android:layout_centerInParent="true"
         android:layout_marginStart="147dp"
         android:layout_marginBottom="1dp"
-        android:text="previous" />
+        android:text="Back" />
 
     <com.github.mikephil.charting.charts.LineChart
         android:id="@+id/chart"
