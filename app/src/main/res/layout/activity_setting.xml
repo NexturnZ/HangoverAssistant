@@ -25,7 +25,7 @@
         android:layout_alignParentTop="true"
         android:layout_marginTop="120dp"
         android:hint="TYPE MESSAGE"
-        android:textSize="30dp"/>
+        android:textSize="30dp" />
 
 
     <Button
