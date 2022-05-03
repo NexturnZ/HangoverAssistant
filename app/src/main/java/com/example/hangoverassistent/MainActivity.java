@@ -118,10 +118,9 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         getSmsPermission();
 
         //brought
-
         mLog = findViewById(R.id.log);
-        mFunction = (Button) findViewById(R.id.function);
-        mSetting = (Button) findViewById(R.id.setting);
+        mFunction = findViewById(R.id.function);
+        mSetting = findViewById(R.id.setting);
 
         numbers = findViewById(R.id.numbers);
 
@@ -134,11 +133,9 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         });
 
         //function button
-
         mLog.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 onButtonLogClicked(v);
             }
         });
@@ -147,7 +144,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
             @Override
             public void onClick(View view) {
-                if (flag == false){
+                if (!flag){
                     flag = true;
                     mFunction.setText("Turn Off");
 
@@ -200,33 +197,17 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         mHandler1.removeCallbacks(activity_recognition);
         mHandler1.postDelayed(activity_recognition,period);
 
-        SharedPreferences sharedPreferences = getPreferences(MODE_PRIVATE);
-//        stepCount = sharedPreferences.getInt("stepCount", 0);
     }
 
     protected void onPause() {
         super.onPause();
 
         mHandler1.removeCallbacks(activity_recognition);
-        
-
-//        SharedPreferences sharedPreferences = getPreferences(MODE_PRIVATE);
-//        SharedPreferences.Editor editor = sharedPreferences.edit();
-//        editor.clear();
-//        editor.apply();
     }
 
     protected void onStop() {
         super.onStop();
-
-//        SharedPreferences sharedPreferences = getPreferences(MODE_PRIVATE);
-//        SharedPreferences.Editor editor = sharedPreferences.edit();
-//        editor.clear();
-//        editor.putInt("stepCount", stepCount);
-//        editor.apply();
     }
-
-
 
     @Override
     public void onSensorChanged(SensorEvent sensorEvent) {
