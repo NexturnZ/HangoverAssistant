@@ -1,9 +1,7 @@
 package com.example.hangoverassistent;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
 
-import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -11,44 +9,25 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
-import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
 import android.os.Handler;
-import android.provider.Settings;
 import android.util.Log;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import java.io.BufferedReader;
-import java.io.DataOutputStream;
+
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.Arrays;
 import java.lang.Math;
 
 
 public class MainActivity extends AppCompatActivity implements SensorEventListener{
     private TextView textView;
-    private EditText fileNameInput;
-    private Button start;
 
     SensorManager sm;
     Sensor accelerator;
 
     Calculation cal = new Calculation();
-
-    private static String fileTitle;
-    public static File file;
-
-    boolean START_RECORDING = false;
-
 
     int window_size = 50; // 1-sec window when sample rate is 0.02 (SENSOR_DELAY_GAME)
     int idx = 0;
@@ -72,27 +51,6 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     private Integer stepCount = 0;
 
 
-//    private Runnable activity_recognition = new Runnable() {
-//        @Override
-//        public void run() {
-//            if (stepCount == null) {
-//                Log.e(TAG1, "is null");
-//            }
-//
-//
-//            String mode;
-//            if (stepCount <= 2) {
-//                mode = "Standing";
-//            } else if (stepCount > 2 && stepCount <= 6) {
-//                mode = "Walking";
-//            } else {
-//                mode = "Drunken";
-//            }
-//
-//
-//        }
-//    };
-
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -104,22 +62,6 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         mHandler1 = new Handler();
 
         textView = findViewById(R.id.textView1);
-
-//        textView = findViewById(R.id.textView);
-//        fileNameInput = findViewById(R.id.fileNameInput);
-//        start = findViewById(R.id.start);
-
-//        start.setOnClickListener(
-//                new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View view) {
-//                        fileTitle = fileNameInput.getText().toString();
-//                        file = new File(Environment.getExternalStorageDirectory(), fileTitle);
-//                        START_RECORDING = true;
-//                    }
-//                }
-//        );
-
 
 
     }
@@ -143,21 +85,20 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         mHandler1.removeCallbacks(activity_recognition);
         
 
-        SharedPreferences sharedPreferences = getPreferences(MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.clear();
-//        editor.putInt("stepCount", stepCount);
-        editor.apply();
+//        SharedPreferences sharedPreferences = getPreferences(MODE_PRIVATE);
+//        SharedPreferences.Editor editor = sharedPreferences.edit();
+//        editor.clear();
+//        editor.apply();
     }
 
     protected void onStop() {
         super.onStop();
 
-        SharedPreferences sharedPreferences = getPreferences(MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.clear();
-        editor.putInt("stepCount", stepCount);
-        editor.apply();
+//        SharedPreferences sharedPreferences = getPreferences(MODE_PRIVATE);
+//        SharedPreferences.Editor editor = sharedPreferences.edit();
+//        editor.clear();
+//        editor.putInt("stepCount", stepCount);
+//        editor.apply();
     }
 
 
@@ -230,10 +171,10 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             features[12] = cal.max(x_acceleration) - cal.min(x_acceleration); // d_ML
             features[13] = cal.max(z_acceleration) - cal.min(z_acceleration); // d_AP
             features[14] = cal.max(y_acceleration) - cal.min(y_acceleration); // d_V
-            features[15] = (double) Math.sqrt(Math.pow(features[12],2)+Math.pow(features[13],2)); // d_ML_AP
-            features[16] = (double) Math.sqrt(Math.pow(features[12],2)+Math.pow(features[14],2)); // d_ML_V
-            features[17] = (double) Math.sqrt(Math.pow(features[14],2)+Math.pow(features[13],2));// d_V_AP
-            features[18] = (double) Math.sqrt(Math.pow(features[12],2)+Math.pow(features[13],2)+Math.pow(features[14],2));// d_ML_AP_V
+            features[15] = Math.sqrt(Math.pow(features[12],2)+Math.pow(features[13],2)); // d_ML_AP
+            features[16] = Math.sqrt(Math.pow(features[12],2)+Math.pow(features[14],2)); // d_ML_V
+            features[17] = Math.sqrt(Math.pow(features[14],2)+Math.pow(features[13],2));// d_V_AP
+            features[18] = Math.sqrt(Math.pow(features[12],2)+Math.pow(features[13],2)+Math.pow(features[14],2));// d_ML_AP_V
 
             double[] tr_x = cal.trend(x_acceleration,features[0],features[3]);
             double[] tr_z = cal.trend(z_acceleration,features[1],features[4]);
@@ -259,17 +200,11 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             if(pred>0){
                 textView.setText(String.format("Pred value:%f\nDRUNK",pred));
                 Log.d("Detection Result", String.format("DRUNK:%f\n",pred));
-//                System.out.printf("DRUNK:%f\n",pred);
             }
             else{
                 textView.setText(String.format("Pred value:%f\nNOT DRUNK",pred));
-//                System.out.printf("NOT DRUNK:%f\n",pred);
                 Log.d("Detection Result", String.format("NOT DRUNK:%f\n",pred));
             }
-
-//            textView.setText(String.format("%f",(time[0]-time[1])/1e9));
-
-
             mHandler1.postDelayed(activity_recognition,1000);
         }
     };

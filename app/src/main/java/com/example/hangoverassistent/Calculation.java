@@ -76,7 +76,7 @@ public class Calculation {
         return m;
     }
 
-    // m: mean of a; v: variance of a.
+    /* m: mean of a; v: variance of a. */
     public double[] trend(double[] a, double m, double v){
 
         double muT = 0, muD = 0, sigmaT = 0, sigmaD = 0;
@@ -106,13 +106,6 @@ public class Calculation {
             muD += Math.abs(m-mu[idx]);
             sigmaT += Math.abs(sigma[idx]-sigma[idx-1]);
             sigmaD += Math.abs(v-sigma[idx]);
-
-//             for(int i1=idx_start;i1<idx_stop;i1++){
-//                muT += Math.abs(mu[idx]-mu[idx-1]);
-//                muD += Math.abs(m-mu[idx]);
-//                sigmaT += Math.abs(sigma[idx]-sigma[idx-1]);
-//                sigmaD += Math.abs(v-sigma[idx]);
-//            }
 
             idx_start = idx_stop;
             idx ++;
