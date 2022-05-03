@@ -18,6 +18,7 @@ import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.github.mikephil.charting.utils.ColorTemplate;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -48,23 +49,25 @@ public class userlog extends AppCompatActivity {
         entries.add(new Entry(1, 1));
         entries.add(new Entry(2, 1));
         entries.add(new Entry(3, 1));
-        entries.add(new Entry(4, 1));
-        entries.add(new Entry(5, 1));
+        entries.add(new Entry(4, -1));
+        entries.add(new Entry(18, -1));
 
 
         //Line dataset and colors
-        LineDataSet lineDataSet = new LineDataSet(entries, "");
+        LineDataSet lineDataSet = new LineDataSet(entries,"");
 
 
         lineDataSet.setLineWidth(2);
-        lineDataSet.setCircleRadius(6);
+        lineDataSet.setCircleRadius(0);
         lineDataSet.setCircleColor(Color.parseColor("#FFA1B4DC"));
         lineDataSet.setColor(Color.parseColor("#FFA1B4DC"));
-        lineDataSet.setDrawCircleHole(true);
-        lineDataSet.setDrawCircles(true);
+        lineDataSet.setDrawCircleHole(false);
+        lineDataSet.setDrawCircles(false);
         lineDataSet.setDrawHorizontalHighlightIndicator(false);
         lineDataSet.setDrawHighlightIndicators(false);
         lineDataSet.setDrawValues(false);
+
+
 
         LineData lineData = new LineData(lineDataSet);
         lineChart.setData(lineData);
@@ -75,7 +78,11 @@ public class userlog extends AppCompatActivity {
         XAxis xAxis = lineChart.getXAxis();
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
         xAxis.setTextColor(Color.BLACK);
+        xAxis.setDrawAxisLine(false);
+        xAxis.setDrawLabels(false);
         xAxis.enableGridDashedLine(8, 24, 0);
+
+
 
 
         //Y axis
@@ -83,9 +90,14 @@ public class userlog extends AppCompatActivity {
         yLAxis.setTextColor(Color.BLACK);
 
         YAxis yRAxis = lineChart.getAxisRight();
-        yRAxis.setDrawLabels(false);
-        yRAxis.setDrawAxisLine(false);
+        yRAxis.setDrawLabels(true);
+        yRAxis.setDrawAxisLine(true);
         yRAxis.setDrawGridLines(false);
+
+
+        //show  Y axis at left
+        lineChart.getAxisLeft().setEnabled(true);
+
 
         Description description = new Description();
         description.setText("");
@@ -95,6 +107,8 @@ public class userlog extends AppCompatActivity {
         lineChart.setDescription(description);
         lineChart.animateY(2000, Easing.EaseInCubic);
         lineChart.invalidate();
+
+
 
 
     }
