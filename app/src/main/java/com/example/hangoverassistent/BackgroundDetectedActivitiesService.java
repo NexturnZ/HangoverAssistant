@@ -43,7 +43,7 @@ public class BackgroundDetectedActivitiesService extends Service {
 //        mPendingIntent = PendingIntent.getBroadcast(this, 1,
 //                mIntentService, PendingIntent.FLAG_UPDATE_CURRENT);
         mPendingIntent = PendingIntent.getBroadcast(this, 1,
-                mIntentService, PendingIntent.FLAG_IMMUTABLE);
+                mIntentService, PendingIntent.FLAG_MUTABLE);
         requestActivityUpdatesButtonHandler();
     }
 

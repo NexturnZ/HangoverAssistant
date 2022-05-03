@@ -9,8 +9,6 @@ import com.google.android.gms.location.DetectedActivity;
 
 import java.util.ArrayList;
 
-//import SessionManager;
-
 public class ActivityRecognitionBroadcastReceiver extends BroadcastReceiver {
 //    private SessionManager sessionManager;
 

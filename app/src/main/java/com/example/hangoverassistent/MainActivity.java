@@ -231,23 +231,23 @@ import com.google.android.gms.location.DetectedActivity;
 
 public class MainActivity extends AppCompatActivity {
 
-    private String TAG = MainActivity.class.getSimpleName();
-    BroadcastReceiver broadcastReceiver;
+//    private String TAG = MainActivity.class.getSimpleName();
+//    BroadcastReceiver broadcastReceiver;
 
-    private TextView txtActivity, txtConfidence;
-    private ImageView imgActivity;
-    private Button btnStartTrcking, btnStopTracking;
+//    private TextView txtActivity, txtConfidence;
+//    private ImageView imgActivity;
+//    private Button btnStartTrcking, btnStopTracking;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        txtActivity = findViewById(R.id.txt_activity);
-        txtConfidence = findViewById(R.id.txt_confidence);
-        imgActivity = findViewById(R.id.img_activity);
-        btnStartTrcking = findViewById(R.id.btn_start_tracking);
-        btnStopTracking = findViewById(R.id.btn_stop_tracking);
+//        txtActivity = findViewById(R.id.txt_activity);
+//        txtConfidence = findViewById(R.id.txt_confidence);
+//        imgActivity = findViewById(R.id.img_activity);
+//        btnStartTrcking = findViewById(R.id.btn_start_tracking);
+//        btnStopTracking = findViewById(R.id.btn_stop_tracking);
 
         Intent intent = new Intent(this,BackgroundDetectedActivitiesService.class);
         startService(intent);
@@ -260,8 +260,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
 
-        LocalBroadcastManager.getInstance(this).registerReceiver(broadcastReceiver,
-                new IntentFilter(Constants.BROADCAST_DETECTED_ACTIVITY));
+//        LocalBroadcastManager.getInstance(this).registerReceiver(broadcastReceiver,
+//                new IntentFilter(Constants.BROADCAST_DETECTED_ACTIVITY));
     }
 
     @Override
