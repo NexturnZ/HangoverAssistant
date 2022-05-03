@@ -1,5 +1,6 @@
 package com.example.hangoverassistent;
 
+import android.annotation.SuppressLint;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -15,6 +16,7 @@ public class ActivityRecognitionBroadcastReceiver extends BroadcastReceiver {
     public static final String INTENT_ACTION = "com.package.name" +
             ".ACTION_PROCESS_ACTIVITY_TRANSITIONS";
 
+//    @SuppressLint("UnsafeProtectedBroadcastReceiver")
     @Override
     public void onReceive(Context context, Intent intent) {
         if (intent!= null) {
