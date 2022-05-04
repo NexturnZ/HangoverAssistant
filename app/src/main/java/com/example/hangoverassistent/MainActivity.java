@@ -85,6 +85,8 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     private Intent setting; /* intent for setting page activity */
     private Intent logging;
 
+    private int drunk_num=0, clear_num=0;
+
 
     /*configuration page variables*/
     ActivityResultLauncher<Intent> configurationActivityResultLauncher;
@@ -385,13 +387,18 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         double pred = cal.correlate(features,svm_coef) + intercept;
 
         if(pred>0){
-            mDrunkIndicator.setText(String.format("DRUNK",pred));
+//            mDrunkIndicator.setText(String.format("DRUNK",pred));
             Log.d("Detection Result", String.format("DRUNK:%f\n",pred));
+
+            drunk_num++;
         }
         else{
-            mDrunkIndicator.setText(String.format("NOT DRUNK",pred));
+//            mDrunkIndicator.setText(String.format("NOT DRUNK",pred));
             Log.d("Detection Result", String.format("NOT DRUNK:%f\n",pred));
+            clear_num++;
         }
+
+        mDrunkIndicator.setText(String.format("Drunk detected:%d\nClear detected:%d",drunk_num,clear_num));
 
         return (int)Math.signum(pred);
     }
