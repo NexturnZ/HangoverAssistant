@@ -164,7 +164,7 @@ public class userlog extends AppCompatActivity {
         String time_str = String.valueOf(time);
         SimpleDateFormat s3;
         if(line==2){
-            s3 = new SimpleDateFormat("YYYY-MM-dd\nHH:mm");
+            s3 = new SimpleDateFormat("YYYY-MM-dd\nHH:mm:ss");
         }
         else{
             s3 = new SimpleDateFormat("YYYY-MM-dd:HH:mm");
