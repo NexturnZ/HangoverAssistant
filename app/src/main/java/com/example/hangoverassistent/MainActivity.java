@@ -80,7 +80,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     /* Views initialization*/
     private Button mLog;
     private Button mSetting;
-    private TextView mActSign;
+    private TextView mActSign,mDrunkIndicator;
     private Switch mActivate;
     private Intent setting; /* intent for setting page activity */
     private Intent logging;
@@ -115,6 +115,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         mSetting = findViewById(R.id.setting);
         mActivate = findViewById(R.id.mActivate);
         mActSign = findViewById(R.id.mActSign);
+        mDrunkIndicator = findViewById(R.id.DrunkIndicator);
 
 
         mSetting.setOnClickListener(new View.OnClickListener() {
@@ -141,6 +142,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                 }
                 else{
                     mActSign.setText("Ready to Activate");
+                    sms_sent = false; /* reset sms_sent flag */
                 }
 
                 Activation = b;
@@ -252,9 +254,9 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
         logging = new Intent(this, userlog.class);
         logging.putExtra("detection",detection);
-        logging.putExtra("detection_time",detection_time);
-//        logging.putExtra("starting_time",starting_time);
-//        logging.putExtra("ending_time",ending_time);
+//        logging.putExtra("detection_time",detection_time);
+        logging.putExtra("starting_time",starting_time);
+        logging.putExtra("ending_time",ending_time);
 
         startActivity(logging);
     }
@@ -377,11 +379,11 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         double pred = cal.correlate(features,svm_coef) + intercept;
 
         if(pred>0){
-//                textView.setText(String.format("Pred value:%f\nDRUNK",pred));
+            mDrunkIndicator.setText(String.format("DRUNK",pred));
             Log.d("Detection Result", String.format("DRUNK:%f\n",pred));
         }
         else{
-//                textView.setText(String.format("Pred value:%f\nNOT DRUNK",pred));
+            mDrunkIndicator.setText(String.format("NOT DRUNK",pred));
             Log.d("Detection Result", String.format("NOT DRUNK:%f\n",pred));
         }
 

@@ -35,9 +35,9 @@ public class setting extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setting);
 
-        mPrevious = (Button) findViewById(R.id.previous);
-        mGetNumber = (EditText) findViewById(R.id.mGetNumber);
-        mGetText = (EditText) findViewById(R.id.mGetText);
+        mPrevious = findViewById(R.id.previous);
+        mGetNumber = findViewById(R.id.mGetNumber);
+        mGetText = findViewById(R.id.mGetText);
 
         sw1 = findViewById(R.id.sw1);
         sw2 = findViewById(R.id.sw2);

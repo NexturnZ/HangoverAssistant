@@ -8,6 +8,14 @@
     android:orientation="vertical"
     tools:context=".MainActivity">
 
+    <TextView
+        android:id="@+id/DrunkIndicator"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="522dp"
+        android:textSize="30dp" />
 
     <Switch
         android:id="@+id/mActivate"

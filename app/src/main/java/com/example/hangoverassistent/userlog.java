@@ -2,10 +2,12 @@ package com.example.hangoverassistent;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.LineChart;
@@ -19,6 +21,7 @@ import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.github.mikephil.charting.utils.ColorTemplate;
 
 import java.lang.reflect.Array;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,32 +29,63 @@ public class userlog extends AppCompatActivity {
 
     private Button mPrevious2;
     private LineChart lineChart;
+    private TextView label1,label2,label3,label4;
+
+    private ArrayList<Integer> detection;
+    private long starting_time, ending_time, oneThird_time, twoThird_time;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_userlog);
-        mPrevious2 = (Button) findViewById(R.id.previous2);
+        mPrevious2 = findViewById(R.id.previous2);
 
         mPrevious2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-
                 onButtonPreviousClicked(v);
             }
         });
 
-        lineChart = (LineChart)findViewById(R.id.chart);
+        Intent MainPage = getIntent();
+        detection = MainPage.getExtras().getIntegerArrayList("detection");
+        starting_time = MainPage.getExtras().getLong("starting_time");
+        ending_time = MainPage.getExtras().getLong("ending_time");
+
+        oneThird_time = starting_time + (ending_time-starting_time)/3;
+        twoThird_time = starting_time + (ending_time-starting_time)*2/3;
+
+
+        label1 = findViewById(R.id.time1);
+        label2 = findViewById(R.id.time2);
+        label3 = findViewById(R.id.time3);
+        label4 = findViewById(R.id.time4);
+
+        lineChart = findViewById(R.id.chart);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        /* transform  timestamp to date */
+        String xlabel_start = labelGeneration(starting_time);
+        String xlabel_onethird = labelGeneration(oneThird_time);
+        String xlabel_twothird = labelGeneration(twoThird_time);
+        String xlabel_end = labelGeneration(ending_time);
+
+        label1.setText(xlabel_start);
+        label2.setText(xlabel_onethird);
+        label3.setText(xlabel_twothird);
+        label4.setText(xlabel_end);
+
+
 
         //data entry
         List<Entry> entries = new ArrayList<>();
-        entries.add(new Entry(1, 1));
-        entries.add(new Entry(2, 1));
-        entries.add(new Entry(3, 1));
-        entries.add(new Entry(4, -1));
-        entries.add(new Entry(18, -1));
-
+        for(int i1=0;i1<detection.size();i1++){
+            entries.add(new Entry(i1,detection.get(i1)));
+        }
 
         //Line dataset and colors
         LineDataSet lineDataSet = new LineDataSet(entries,"");
@@ -108,21 +142,17 @@ public class userlog extends AppCompatActivity {
         lineChart.animateY(2000, Easing.EaseInCubic);
         lineChart.invalidate();
 
-
-
-
     }
-
-
 
     public void onButtonPreviousClicked(View v){
-
-
-
         finish();
-
-
     }
 
+    private String labelGeneration(long time){
+        String time_str = String.valueOf(time);
+        SimpleDateFormat s3 = new SimpleDateFormat("MM-dd\nHH:mm");
+
+        return s3.format(Long.parseLong(time_str));
+    }
 
 }
