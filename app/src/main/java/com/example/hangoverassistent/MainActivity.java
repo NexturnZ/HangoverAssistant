@@ -70,14 +70,14 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     private int decision_threshold = 6; /* 8s in 10s are detected drunk */
 
 
-
-
     private boolean drunken = false;
     private boolean Activation = false; /* whether the function is turn on */
     private boolean sms_sent = false; /* flag recording whether message is sent, assuming only send sms once */
 
+//    private ArrayList<Action> actionHistory = new ArrayList<>();
+    private Action actionHistory;
 
-    /* Views initialization*/
+    /* Views initialization */
     private Button mLog;
     private Button mSetting;
     private TextView mActSign,mDrunkIndicator;
@@ -257,6 +257,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 //        logging.putExtra("detection_time",detection_time);
         logging.putExtra("starting_time",starting_time);
         logging.putExtra("ending_time",ending_time);
+        logging.putExtra("actionHistory",actionHistory);
 
         startActivity(logging);
     }
@@ -287,6 +288,11 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
                     if(drunken&sms_flag&!sms_sent){
                         sendSMS();
+
+                        Date date = new Date();
+                        long t = date.getTime();
+//                        actionHistory.add(new Action("Send Alarm Message",t));
+                        actionHistory = new Action("Send Alarm Message",t);
                     }
                 }
 

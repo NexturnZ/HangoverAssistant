@@ -29,10 +29,11 @@ public class userlog extends AppCompatActivity {
 
     private Button mPrevious2;
     private LineChart lineChart;
-    private TextView label1,label2,label3,label4;
+    private TextView label1,label2,label3,label4,actionHistoryView;
 
     private ArrayList<Integer> detection;
     private long starting_time, ending_time, oneThird_time, twoThird_time;
+    private Action actionHistory;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +52,8 @@ public class userlog extends AppCompatActivity {
         detection = MainPage.getExtras().getIntegerArrayList("detection");
         starting_time = MainPage.getExtras().getLong("starting_time");
         ending_time = MainPage.getExtras().getLong("ending_time");
+        actionHistory = (Action)MainPage.getSerializableExtra("actionHistory");
+
 
         oneThird_time = starting_time + (ending_time-starting_time)/3;
         twoThird_time = starting_time + (ending_time-starting_time)*2/3;
@@ -60,6 +63,8 @@ public class userlog extends AppCompatActivity {
         label2 = findViewById(R.id.time2);
         label3 = findViewById(R.id.time3);
         label4 = findViewById(R.id.time4);
+        actionHistoryView = findViewById(R.id.actionHistory);
+
 
         lineChart = findViewById(R.id.chart);
     }
@@ -69,15 +74,22 @@ public class userlog extends AppCompatActivity {
         super.onResume();
 
         /* transform  timestamp to date */
-        String xlabel_start = labelGeneration(starting_time);
-        String xlabel_onethird = labelGeneration(oneThird_time);
-        String xlabel_twothird = labelGeneration(twoThird_time);
-        String xlabel_end = labelGeneration(ending_time);
+        String xlabel_start = labelGeneration(starting_time,2);
+        String xlabel_onethird = labelGeneration(oneThird_time,2);
+        String xlabel_twothird = labelGeneration(twoThird_time,2);
+        String xlabel_end = labelGeneration(ending_time,2);
 
         label1.setText(xlabel_start);
         label2.setText(xlabel_onethird);
         label3.setText(xlabel_twothird);
         label4.setText(xlabel_end);
+
+        if(actionHistory != null){
+            String action = "1." + actionHistory.type + ": " + labelGeneration(actionHistory.time,1);
+            actionHistoryView.setText(action);
+        }
+
+
 
 
 
@@ -148,9 +160,16 @@ public class userlog extends AppCompatActivity {
         finish();
     }
 
-    private String labelGeneration(long time){
+    private String labelGeneration(long time, int line){
         String time_str = String.valueOf(time);
-        SimpleDateFormat s3 = new SimpleDateFormat("MM-dd\nHH:mm");
+        SimpleDateFormat s3;
+        if(line==2){
+            s3 = new SimpleDateFormat("YYYY-MM-dd\nHH:mm");
+        }
+        else{
+            s3 = new SimpleDateFormat("YYYY-MM-dd:HH:mm");
+        }
+
 
         return s3.format(Long.parseLong(time_str));
     }
